@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CsvFileController!{% endblock %}
+
+{% block body %}
+    <h1>Adding a new product</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.fileName) }}
+
+    <button type="submit" class="btn"> Upload </button>
+    {{ form_end(form) }}
+{% endblock %}
