@@ -1,0 +1,12 @@
+	sa facem mapping intre coloanele csv-ului si coloanele entitatii
+	upload intr-un queue
+	apoi sa avem un message si un handler
+	+progres real-time
+	pt fiecare coloana din csv sa se selecteze o coloana din db
+	opt: sa pot uploada 2 in acelasi timp
+
+1. AddCsv (Message)
+2. AddDescription (to do) (message+handler)
+3. AddName (to do)
+4. UI
+5. Progres-ul

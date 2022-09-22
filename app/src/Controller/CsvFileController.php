@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CsvFile;
 use App\Form\CsvFileType;
+use App\Message\AddCsv;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Csv\Exception;
 use League\Csv\Statement;
@@ -12,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use League\Csv\Reader;
@@ -20,7 +22,7 @@ use League\Csv\Reader;
 class CsvFileController extends AbstractController
 {
     #[Route('/csv_file', name: 'app_csv_file')]
-    public function new(Request $request, SluggerInterface $slugger, EntityManagerInterface $db): \Symfony\Component\HttpFoundation\Response
+    public function new(Request $request, SluggerInterface $slugger, EntityManagerInterface $db, MessageBusInterface $bus): \Symfony\Component\HttpFoundation\Response
     {
         $CsvFile = new CsvFile();
         $form = $this->createForm(CsvFileType::class, $CsvFile);
@@ -55,15 +57,12 @@ class CsvFileController extends AbstractController
                     $records = $stmt->process($csv);
                    // dd($records);
                     foreach ($records as $row) {
-                        $x=(new CsvFile())
-                            ->setNane($row[0])
-                            ->setDescription($row[1])
-                            ->setFileName($newFilename);
+//                        $x=(new CsvFile())
+//                            ->setNane($row[0])
+//                            ->setDescription($row[1])
+//                            ->setFileName($newFilename);
 
-                            ;
-
-                       $db->persist($x);
-                       $db->flush();
+                        $bus->dispatch(new AddCsv($row[0], $row[1]));
                        }
 
 
