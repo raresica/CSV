@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\CsvFile;
+use App\Entity\User;
 use App\Form\CsvFileType;
 use App\Message\AddCsv;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Message\Name;
 use League\Csv\Exception;
 use League\Csv\Statement;
-use PDO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -22,11 +22,12 @@ use League\Csv\Reader;
 class CsvFileController extends AbstractController
 {
     #[Route('/csv_file', name: 'app_csv_file')]
-    public function new(Request $request, SluggerInterface $slugger, EntityManagerInterface $db, MessageBusInterface $bus): \Symfony\Component\HttpFoundation\Response
+    public function new(Request $request, SluggerInterface $slugger, MessageBusInterface $bus): \Symfony\Component\HttpFoundation\Response
     {
         $CsvFile = new CsvFile();
         $form = $this->createForm(CsvFileType::class, $CsvFile);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             //dd($form->get('fileName')->getData());
@@ -62,7 +63,9 @@ class CsvFileController extends AbstractController
 //                            ->setDescription($row[1])
 //                            ->setFileName($newFilename);
 
-                        $bus->dispatch(new AddCsv($row[0], $row[1]));
+                        //$bus->dispatch(new AddCsv($row[0], $row[1]));
+                        $bus->dispatch(new Name($row[0], $row[1], $row[2], $row[3]));
+                        //$bus->dispatch(new Name)
                        }
 
 
