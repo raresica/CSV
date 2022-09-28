@@ -23,6 +23,9 @@ class CsvFile
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
+    public ?string $entityType = null;
+    public ?string $columnA = null;
+    public ?string $columnB = null;
 
     public function getId(): ?int
     {

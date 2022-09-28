@@ -4,6 +4,9 @@ namespace App\Form;
 
 use App\Entity\CsvFile;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -15,12 +18,10 @@ class CsvFileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            // ...
             ->add('fileName', FileType::class, [
-                'label' => '(CSV file)',
-
+                'label' => 'Select a file to upload',
                 // unmapped means that this field is not associated to any entity property
-                'mapped' => false,
+               'mapped' => false,
 
                 // make it optional so you don't have to re-uploads the PDF file
                 // every time you edit the Product details
@@ -38,8 +39,38 @@ class CsvFileType extends AbstractType
                     ])
                 ],
             ])
-            // ...
-        ;
+            ->add('entityType', ChoiceType::class, [
+                'label' => 'Select entity type',
+                'choices' => [
+                    'Select' => null,
+                    'Name' => "name",
+                    'CsvFile' => "csv",
+                ],
+                'attr' => ['class' => 'form-control form-select']
+
+            ])
+//            ->add('fileLocation', TextType::class, [
+//
+//            ])
+            ->add('columnA', ChoiceType::class, [
+                'choices' => [
+                    'Select' => null,
+                    'Name' => "name",
+                    'CsvFile' => "csv",
+                ],
+                'attr' => ['class' => 'form-control form-select']
+
+            ])
+
+            ->add('columnB', ChoiceType::class, [
+                'choices' => [
+                    'Select' => null,
+                    'Name' => "name",
+                    'CsvFile' => "csv",
+                ],
+                'attr' => ['class' => 'form-control form-select']
+
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
