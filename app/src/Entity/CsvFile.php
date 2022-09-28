@@ -26,6 +26,8 @@ class CsvFile
     public ?string $entityType = null;
     public ?string $columnA = null;
     public ?string $columnB = null;
+    public ?string $columnC = null;
+    public ?string $columnD = null;
 
     public function getId(): ?int
     {

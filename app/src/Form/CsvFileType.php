@@ -21,7 +21,7 @@ class CsvFileType extends AbstractType
             ->add('fileName', FileType::class, [
                 'label' => 'Select a file to upload',
                 // unmapped means that this field is not associated to any entity property
-               'mapped' => false,
+                'mapped' => false,
 
                 // make it optional so you don't have to re-uploads the PDF file
                 // every time you edit the Product details
@@ -47,29 +47,22 @@ class CsvFileType extends AbstractType
                     'CsvFile' => "csv",
                 ],
                 'attr' => ['class' => 'form-control form-select']
-
             ])
-//            ->add('fileLocation', TextType::class, [
-//
-//            ])
-            ->add('columnA', ChoiceType::class, [
-                'choices' => [
-                    'Select' => null,
-                    'Name' => "name",
-                    'CsvFile' => "csv",
-                ],
+            ->add('columnA', TextType::class, [
+                'required' => false,
                 'attr' => ['class' => 'form-control form-select']
-
             ])
-
-            ->add('columnB', ChoiceType::class, [
-                'choices' => [
-                    'Select' => null,
-                    'Name' => "name",
-                    'CsvFile' => "csv",
-                ],
+            ->add('columnB', TextType::class, [
+                'required' => false,
                 'attr' => ['class' => 'form-control form-select']
-
+            ])
+            ->add('columnC', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control form-select']
+            ])
+            ->add('columnD', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control form-select']
             ]);
     }
 

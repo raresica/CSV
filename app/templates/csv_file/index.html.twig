@@ -32,22 +32,14 @@
                 {#                    <span class="drop-zone__prompt">Drop file here or click to upload</span> #}
                 {#                    <input type="file" name="myFile" class="drop-zone__input"> #}
                 {#                </div> #}
-{{ fileName }}
 
             </div>
             <div class="col">
                 <div id="entity-container">
-                    {{ form_row(form.entityType, {'disabled': 1 !=  true}) }}
+                    {{ form_row(form.entityType) }}
                 </div>
                 <div id="match-cols-container">
                     <h1 class="h6">Match columns</h1>
-                    {% if entityType == "name"%}
-                        {{ form_row(form.columnA, {'label': 'First name', 'disabled': false}) }}
-                        {{ form_row(form.columnB, {'label': 'Last name', 'disabled': false}) }}
-                    {% else %}
-                        {{ form_row(form.columnA, {'label': 'File name', 'disabled': fileName}) }}
-                        {{ form_row(form.columnB, {'label': 'Description', 'disabled': fileName}) }}
-                    {% endif %}
                 </div>
             </div>
         </div>

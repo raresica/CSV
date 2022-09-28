@@ -22,17 +22,17 @@ use League\Csv\Reader;
 class CsvFileController extends AbstractController
 {
     #[Route('/csv_file', name: 'app_csv_file')]
+    //adaugare id pentru fisier. trimit csv file in front. Verific daca exista.
     public function new(Request $request, SluggerInterface $slugger, MessageBusInterface $bus): \Symfony\Component\HttpFoundation\Response
     {
         $CsvFile = new CsvFile();
         $form = $this->createForm(CsvFileType::class, $CsvFile);
         $form->handleRequest($request);
-       // dd($form->get('entityType')->getData());
 
-        if ($form->isSubmitted() && $form->isValid() && $form->get('fileName')->getData()){
+        if ($form->isSubmitted() && $form->isValid()){
             /** @var UploadedFile $file */
-
             $file = $form->get('fileName')->getData();
+            $entityType = $form->get('entityType')->getData();
 
             if ($file) {
                 $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -49,14 +49,21 @@ class CsvFileController extends AbstractController
                     $csv = Reader::createFromPath("/app/public/uploads/csv/$newFilename");
 
                     $stmt = Statement::create()
-                        ->offset(0)
+                        ->offset(1)
                     ;
                     $records = $stmt->process($csv);
 
-                    foreach ($records as $row) {
+                    $columnA = $form->get('columnA')->getData();
+                    $columnB = $form->get('columnB')->getData();
+                    $columnC = $form->get('columnC')->getData();
+                    $columnD = $form->get('columnD')->getData();
 
-                       // $bus->dispatch(new AddCsv($row[0], $row[1]));
-                        $bus->dispatch(new Name($row[0], $row[1], $row[2], $row[3]));
+                    foreach ($records as $row) {
+                        if ($entityType == "csv") {
+                            $bus->dispatch(new AddCsv($row[$columnA], $row[$columnB]));
+                        } else {
+                            $bus->dispatch(new Name($row[$columnA], $row[$columnB], $row[$columnC], $row[$columnD]));
+                        }
                        }
 
                 } catch (FileException $e) {
@@ -75,8 +82,6 @@ class CsvFileController extends AbstractController
 
         return $this->renderForm('csv_file/index.html.twig', [
             'form' => $form,
-            'entityType' => $form->get('entityType')->getData(),
-            'fileName' =>  $form->get('fileName')->getData()
         ]);
     }
     

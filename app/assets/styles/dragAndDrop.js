@@ -91,15 +91,5 @@ const readFile = () => {
 
 if(fileInput) {
      fileInput.addEventListener('change', readFile)
-    fileInput.addEventListener('change', () => {
-        document.querySelector("form").submit()
-    })
 }
 
-const entityType = document.getElementById ('csv_file_entityType')
-
-if(entityType) {
-    entityType.addEventListener('change', () => {
-        document.querySelector("form").submit()
-    })
-}
