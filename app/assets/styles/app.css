@@ -60,3 +60,7 @@
 .upload-file-input label:hover {
     background-color: #c6c7c8;
 }
+
+#entity-container {
+    visibility: hidden;
+}

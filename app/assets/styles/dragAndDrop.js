@@ -75,13 +75,12 @@ function updateThumbnail(dropZoneElement, file) {
 
 const fileInput = document.getElementById('csv_file_fileName')
 const readFile = () => {
-    console.log("hello")
     const reader = new FileReader()
     reader.onload = (event) => {
         var text = event.target.result;
         var header = text.split(/\r\n/)[0];
-        console.log(header)
         createEntitySelector(header)
+        document.getElementById('entity-container').style.visibility = "visible";
     }
 
     
